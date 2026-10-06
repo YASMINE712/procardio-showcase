@@ -1,0 +1,17 @@
+# Allow only the intentionally authored public case-study material.
+/*
+!/.gitignore
+!/README.md
+!/docs/
+!/pseudocode/
+!/assets/
+/docs/*
+!/docs/*.md
+/pseudocode/*
+!/pseudocode/*.md
+/assets/*
+!/assets/banner.svg
+!/assets/architecture.svg
+!/assets/tenant-isolation.svg
+!/assets/data-pipeline.svg
+!/assets/rag-pipeline.svg
