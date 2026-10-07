@@ -82,3 +82,7 @@ This demonstrates model integration and review-interface design. It does not est
 - A model card with measured precision, recall, localization metrics, inference latency, and representative errors.
 
 None of these requires publishing the application's clinical datasets or model weights.
+
+## Recorded experimental evidence
+
+See the [deep-learning evaluation](deep-learning-evaluation.md) for six saved validation histories, exact metrics, model architecture and data inventory. See [data governance](data-governance.md) for the boundary between feedback review and permission to train.

@@ -1,39 +1,59 @@
-# Selected interface views
+# Product gallery
 
-The gallery should tell a short engineering story. Three or four strong screenshots are more informative than a capture of every form. Original screenshots can be added unchanged; no cropping or redaction is implied by this plan.
+Selected original screenshots are reproduced unchanged at the owner's request. The patient identifier ATLAS-00013 and the name shown correspond to a seeded demonstration identity in the application. Dashboard values illustrate the interface, not customer traction.
 
-## 1. Interactive graphical editor
+## A clear entry point
 
-**What to show:** the main diagram, a selected object, and the associated editing controls in the same view.
+Hospital access with the ProCardio product identity.
 
-**Caption:** "Interactive SVG editing links visual geometry to structured application state. Changes can be reused in the workflow and generated reports."
+![A clear entry point](../assets/screenshots/login.png)
 
-**Engineering signal:** pointer interactions, geometry, state synchronization, and visual feedback.
+## Hospital onboarding
 
-## 2. Image-analysis review
+An account request connects a user to a hospital and a professional role.
 
-**What to show:** an image overlay, a candidate result, its origin or mode, and the review controls.
+![Hospital onboarding](../assets/screenshots/registration.png)
 
-**Caption:** "The review workspace connects model output to image context and keeps the user's decision visible."
+## Operational visibility
 
-**Engineering signal:** model integration, coordinate alignment, provenance, and human review. If the visible result is a demo fallback, identify it as such in the caption.
+Activity, report-validation queues and service indicators in one hospital dashboard. Counts shown are demonstration data, not adoption metrics.
 
-## 3. Source-backed assistant
+![Operational visibility](../assets/screenshots/dashboard.png)
 
-**What to show:** one readable answer with its source references and a source-focused follow-up.
+## Guided procedure workflow
 
-**Caption:** "Document retrieval connects an answer to its supporting sources and preserves context for follow-up questions."
+A phased journey and an interactive lead view make structured entry easier to navigate.
 
-**Engineering signal:** RAG orchestration, citations, conversation context, and source navigation.
+![Guided procedure workflow](../assets/screenshots/ecg-workflow.png)
 
-## 4. Configuration screen
+## An interactive coronary workspace
 
-**What to show:** the page/section hierarchy and a small set of configurable properties.
+Editable anatomy and a contextual side panel connect visual annotations to structured records.
 
-**Caption:** "Hospital-specific settings adapt one application to different workflows through shared defaults and local overrides."
+![An interactive coronary workspace](../assets/screenshots/coronary-editor.png)
 
-**Engineering signal:** configuration modeling, admin UX, and runtime consistency.
+## Anatomy-based data entry
 
-## Capture selection
+A visual measurement interface brings anatomy, units and structured fields together.
 
-Choose captures that are readable at ordinary GitHub page width. Use records and images suitable for public display. Preserve the chosen captures as original image files, with short captions outside the images. The repository currently includes architecture visuals; application screenshots will be selected separately.
+![Anatomy-based data entry](../assets/screenshots/hemodynamics.png)
+
+## Separate platform administration
+
+A dedicated central entry point supports site, account and configuration administration.
+
+![Separate platform administration](../assets/screenshots/backoffice.png)
+
+## AI assistance with human review
+
+Structured intake suggestions can be accepted, edited or rejected. This screen demonstrates prefill review; it is not a screenshot of source-cited RAG or image segmentation.
+
+![AI assistance with human review](../assets/screenshots/proia-review.png)
+
+## Generated report
+
+[Open the original three-page demonstration PDF](../examples/procardio-demo-report.pdf). It combines structured narrative, a coronary diagram, lesion previews and a signature area. The file is unchanged; the image below is a rendered preview of page 2. Seeded values and blank or zero fields make this an output-format example, not a validated clinical document.
+
+![Generated coronary diagram in the report](../assets/report-preview.png)
+
+The registration screenshot includes hosting and health-standard wording from the interface. This showcase does not supply evidence of hosting certification or regulatory conformity.

@@ -38,9 +38,10 @@ jobs:
           failures = []
           counts = {"markdown": 0, "diagrams": 0, "local_links": 0}
           fixed = {".gitignore", "README.md", ".github/workflows/showcase-checks.yml"}
+          reviewed_binary = {'assets/screenshots/login.png', 'assets/screenshots/proia-review.png', 'assets/screenshots/coronary-editor.png', 'assets/screenshots/hemodynamics.png', 'assets/validation-curves.png', 'examples/procardio-demo-report.pdf', 'assets/screenshots/backoffice.png', 'assets/screenshots/ecg-workflow.png', 'assets/screenshots/dashboard.png', 'assets/report-preview.png', 'assets/screenshots/registration.png'}
           for path in files:
               name = path.as_posix()
-              allowed = name in fixed or (
+              allowed = name in fixed or name in reviewed_binary or (
                   len(path.parts) == 2 and (
                       (path.parts[0] in {"docs", "pseudocode"} and path.suffix == ".md")
                       or (path.parts[0] == "assets" and path.suffix == ".svg")
@@ -48,6 +49,12 @@ jobs:
               )
               if not allowed or path.is_symlink():
                   failures.append(f"Unreviewed file type or location: {name}")
+                  continue
+              if name in reviewed_binary:
+                  data = path.read_bytes()
+                  signature = b"\x89PNG\r\n\x1a\n" if path.suffix == ".png" else b"%PDF-"
+                  if not data.startswith(signature) or len(data) > 10_000_000:
+                      failures.append(f"Invalid or oversized reviewed asset: {name}")
                   continue
               try:
                   content = path.read_text(encoding="utf-8")

@@ -4,31 +4,54 @@
 
 [![Showcase checks](https://github.com/YASMINE712/procardio-showcase/actions/workflows/showcase-checks.yml/badge.svg?branch=main)](https://github.com/YASMINE712/procardio-showcase/actions/workflows/showcase-checks.yml)
 
-**A configurable cardiology workflow platform, from structured data entry to interactive review and report generation.**
+**One connected workspace for interventional cardiology: guided procedures, interactive anatomy, reviewable AI and generated reports.**
 
-Engineering case study by [Yasmine Yassine](https://github.com/YASMINE712). ProCardio brings together a React interface, a Django API, hospital-specific configuration, document retrieval, speech transcription, and an image-analysis pipeline.
+Built by [Yasmine Yassine](https://github.com/YASMINE712), ProCardio brings full-stack development, multi-tenant architecture, data engineering and applied AI into one product. Its central idea is simple: information entered during a procedure should remain useful through review, reporting and service oversight.
 
-This repository explains the engineering through diagrams, design decisions, and abstract pseudocode. The application source, clinical questionnaires, medical rules, report templates, records, datasets, and model weights remain private.
+This public showcase presents selected screens, a demonstration report, architecture diagrams, measured validation results and abstract pseudocode. Application source, questionnaire definitions, clinical rules, report HTML templates, datasets and model weights remain private.
 
-## What the project demonstrates
+## See the product
 
-| Area | Engineering work |
+### Turn visual work into structured information
+
+![Interactive coronary editor with contextual controls](assets/screenshots/coronary-editor.png)
+
+The coronary editor connects anatomy, annotations and contextual fields in one workspace. That structured state can support review and appear in the generated report, giving the interface value beyond a static drawing.
+
+### Give teams a shared operational view
+
+![Hospital administration dashboard](assets/screenshots/dashboard.png)
+
+Hospital dashboards bring activity, validation queues and service indicators together. Shared defaults and hospital-specific configuration make adaptation across organizations part of the platform design. The displayed counts are demo data.
+
+### Make AI suggestions actionable
+
+![ProIA structured intake review](assets/screenshots/proia-review.png)
+
+ProIA presents structured prefill suggestions with accept, edit and reject actions. Alongside this intake workflow, the project includes document retrieval with citations, transcription and an image-analysis pipeline. These are distinct capabilities with their own data flows and evaluation needs.
+
+**[Explore all eight screenshots](docs/interface-gallery.md) | [Open the generated PDF report](examples/procardio-demo-report.pdf) | [Explore deep-learning results](docs/deep-learning-evaluation.md)**
+
+## Why this product matters
+
+| Product opportunity | What ProCardio brings |
 | --- | --- |
-| Full-stack development | Typed React interfaces, REST APIs, relational persistence, authentication, and role-aware workflows |
-| Multi-tenant design | Hospital-scoped requests, shared configuration, local overrides, and separate platform administration |
-| Data engineering | Dataset conversion, annotation normalization, group-based splits, and training-data exports |
-| Computer vision | PyTorch / Ultralytics training, augmentation, segmentation, and reviewable model suggestions |
-| RAG and NLP | Document ingestion, OCR fallback, chunk retrieval, source citations, local language-model integration, and transcription |
-| Workflow automation | Configuration-driven screens, structured drafts, derived summaries, and PDF/DOCX generation |
-| Deployment | Docker images and Compose orchestration, with database, model service, and reverse-proxy configuration |
+| Reduce repeated documentation work | Reuse structured procedure information across views and generated documents |
+| Support different hospital workflows | Shared configuration with local overrides and hospital-scoped access |
+| Make complex entry easier to navigate | A phased procedure journey, interactive anatomy and contextual controls |
+| Keep clinicians involved in automation | Explicit review of suggested structured values |
+| Connect care workflows to operational visibility | Service dashboards and report-validation queues |
+| Build a foundation for applied AI | Dataset ETL, augmentation, model experiments, inference integration and feedback capture |
 
-## Three engineering problems behind the interface
+The opportunity is a configurable workflow platform that can support multiple hospital contexts through one application. These are product mechanisms and intended benefits; reduced documentation time, customer adoption and commercial returns remain outcomes to establish through pilots.
 
-**One application, different hospital workflows.** Global defaults and hospital-specific overrides control how the interface is organized. The engineering challenge is to keep navigation, validation, and report inclusion consistent as configuration changes.
+## Deep learning with inspectable results
 
-**Turning heterogeneous inputs into usable data.** Image annotations, sampled video frames, uploaded documents, and dictated text need different preparation pipelines. Preserving source information matters as much as producing a model input.
+The private training workspace contains recorded segmentation experiments, not only an architectural proposal. The strongest recorded lesion run in the selected logs reaches **0.47929 validation mask mAP@0.50**. The vessel-segment run referenced by inference reaches **0.65907** on its different segmentation task. Neither value is clinical diagnostic accuracy or a verified score for the complete deployed pipeline.
 
-**Making automated output reviewable.** Model suggestions and retrieved passages need context. The interface presents results for review, while structured reporting reuses recorded information across output formats.
+![Saved validation histories for two segmentation tasks](assets/validation-curves.png)
+
+The [deep-learning walkthrough](docs/deep-learning-evaluation.md) explains data preparation, augmentation, model stages, exact precision/recall/mAP results, log provenance and the distinction between completed validation histories and evaluation code awaiting a completed result report.
 
 ## Architecture
 
@@ -51,7 +74,7 @@ The web application uses a React client and a Django backend with PostgreSQL. Im
 | [Architecture and delivery](docs/architecture-and-delivery.md) | Application boundaries, containers, and the CI/CD extension design |
 | [Automated showcase checks](docs/showcase-automation.md) | A real GitHub Actions workflow for the public documentation and diagrams |
 | [Pseudocode walkthroughs](pseudocode/README.md) | Generic algorithms without application code or medical content |
-| [Selected interface views](docs/interface-gallery.md) | A focused capture plan for the most informative screens |
+| [Selected interface views](docs/interface-gallery.md) | Eight original screenshots and a generated demonstration report |
 
 ## Technology stack
 
@@ -63,14 +86,16 @@ The web application uses a React client and a Django backend with PostgreSQL. Im
 
 The main vision pipeline uses **PyTorch**. TensorFlow is not presented as an application dependency. Current document retrieval uses lexical and metadata scoring with an optional local LLM; embedding search is an extension opportunity. Container definitions are available, while an end-to-end automated application deployment is not claimed here.
 
-## What I would extend next
+## Limitations and next milestones
 
-1. Publish reproducible data-pipeline evidence: input/output counts, rejected records, split checks, and artifact fingerprints.
-2. Evaluate retrieval with a fixed question set, expected sources, citation checks, and measured latency.
-3. Connect automated checks, container builds, staging smoke tests, and release approval into a demonstrated delivery pipeline.
+- **Data coverage limits model performance.** Correlated frames, annotation quality and differences between acquisition systems can affect generalization. Augmentation cannot replace independent examples or external validation. Recorded lesion recall and strict-IoU scores leave substantial room for improvement.
+- **Validation is only one stage.** The published numbers come from saved validation logs. Completed held-out reports for the cited checkpoints, full-pipeline evaluation, prospective clinical performance and measured latency are not established here.
+- **Feedback is not yet a retraining dataset.** Patient-linked review feedback cannot currently be reused for model training under the project's authorization. Acceptance or correction is not permission for a new data-processing purpose. The [data-governance note](docs/data-governance.md) explains the restriction, official CNDP references and the proposed authorized learning cycle.
+- **Pilot evidence is the next product milestone.** Measure documentation time, report completion, user acceptance and cross-hospital configuration effort before claiming operational savings or scale.
+- **Delivery can be extended.** Public documentation CI runs in GitHub Actions. Application containers exist; a demonstrated application CI/CD pipeline, release-linked model evaluation and a fixed RAG evaluation set are next engineering milestones.
 
-These extensions are useful because they turn architecture claims into results a reviewer can inspect. They are distinguished from the existing application throughout this case study.
+The screenshots and PDF are selected demonstration artifacts. Interface wording is not evidence of hosting certification or regulatory approval.
 
 ---
 
-[GitHub profile](https://github.com/YASMINE712) · [Portfolio](https://yasmine712.github.io/YASMINE712/)
+[GitHub profile](https://github.com/YASMINE712) | [Portfolio](https://yasmine712.github.io/YASMINE712/)

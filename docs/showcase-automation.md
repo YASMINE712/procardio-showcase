@@ -26,3 +26,7 @@ The workflow uses the runner's Python standard library for validation and a pinn
 A passing run means that these checks passed for this public case study. It does not evaluate the ProCardio application, validate medical behavior, check model performance, render Mermaid diagrams, or test deployment. The publication file check is an extension and location check, not a semantic detector for confidential content.
 
 This gives the showcase an actual, inspectable automation loop while preserving a separate delivery plan for the private application.
+
+## Selected media
+
+An explicit path allowlist permits the eight selected screenshots, the original demonstration PDF, its rendered preview and the derived validation chart. CI checks their PNG/PDF signatures and a 10 MB per-file limit. These checks do not inspect privacy or clinical correctness; the selected assets were reviewed separately. Original screenshots and the supplied PDF were copied byte for byte.
