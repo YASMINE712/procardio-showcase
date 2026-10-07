@@ -41,6 +41,8 @@ This is an evaluation plan. No new ablation results are claimed in this reposito
 
 ## Training lifecycle
 
+![Training, augmentation, validation and model integration lifecycle](../assets/training-lifecycle.svg)
+
 The training code supports pretrained initialization, selectable model size and input resolution, CPU/GPU selection, checkpoints, interrupted-run resume, and validation. It also contains a held-out test evaluation call. A training script containing an evaluation step is not evidence that a particular run completed it successfully.
 
 ```mermaid
@@ -53,6 +55,18 @@ flowchart LR
 ```
 
 Training and runtime currently use named checkpoint locations. A useful improvement is an explicit release manifest connecting the selected model to its data version, preprocessing, metrics, and inference configuration. That would prevent a newer training run from being confused with the checkpoint actually loaded by the application.
+
+## What makes an experiment reproducible
+
+| Artifact | What it connects | Why it matters |
+| --- | --- | --- |
+| Data manifest | Sources, transformations, and split membership | Explains which examples went into the experiment |
+| Training configuration | Initialization, augmentation, resolution, and seed | Makes the experimental choices reviewable |
+| Checkpoint identity | The saved weights and training run | Distinguishes evaluated weights from other experiments |
+| Evaluation report | A checkpoint, a specific split, and a metric definition | Makes results interpretable instead of quoting an isolated score |
+| Runtime configuration | The deployed checkpoint and preprocessing | Connects offline evaluation to what the application actually loads |
+
+Training settings and checkpoints already exist in the private workspace. Joining these artifacts into a single traceable release record is the proposed improvement. The table defines the evidence to retain; it does not invent a completed model release.
 
 ## Inference and review
 

@@ -2,6 +2,8 @@
 
 # ProCardio
 
+[![Showcase checks](https://github.com/YASMINE712/procardio-showcase/actions/workflows/showcase-checks.yml/badge.svg?branch=main)](https://github.com/YASMINE712/procardio-showcase/actions/workflows/showcase-checks.yml)
+
 **A configurable cardiology workflow platform, from structured data entry to interactive review and report generation.**
 
 Engineering case study by [Yasmine Yassine](https://github.com/YASMINE712). ProCardio brings together a React interface, a Django API, hospital-specific configuration, document retrieval, speech transcription, and an image-analysis pipeline.
@@ -36,14 +38,18 @@ The web application uses a React client and a Django backend with PostgreSQL. Im
 
 ## Explore the engineering
 
+**For a quick review:** start with [project value](docs/project-value.md), follow [one request through the system](docs/request-walkthrough.md), then explore the [data and model pipeline](docs/data-and-ml.md).
+
 | Read | What it explains |
 | --- | --- |
 | [Technology choices](docs/technology-choices.md) | What each technology does and the tradeoff it introduces |
 | [Multi-tenant isolation](docs/multi-tenant-design.md) | How hospital context, permissions, and scoped data access fit together |
+| [One request, end to end](docs/request-walkthrough.md) | Authentication, authorization, tenant scoping, persistence, and UI refresh |
 | [Project value](docs/project-value.md) | How technical choices support users and what they demonstrate to an employer |
 | [Data and computer-vision pipelines](docs/data-and-ml.md) | ETL, splitting, augmentation, training, evaluation, and inference |
 | [RAG and workflow automation](docs/rag-and-automation.md) | Ingestion, retrieval, citations, transcription, and reporting |
 | [Architecture and delivery](docs/architecture-and-delivery.md) | Application boundaries, containers, and the CI/CD extension design |
+| [Automated showcase checks](docs/showcase-automation.md) | A real GitHub Actions workflow for the public documentation and diagrams |
 | [Pseudocode walkthroughs](pseudocode/README.md) | Generic algorithms without application code or medical content |
 | [Selected interface views](docs/interface-gallery.md) | A focused capture plan for the most informative screens |
 

@@ -33,7 +33,7 @@ Application CI should operate in the private application repository. It needs an
 
 Container builds should produce artifacts tied to a commit. Deployment should consume that tested artifact and record the running version. A release demonstration becomes credible when it includes a health check and a tested rollback path.
 
-The public showcase can have its own automation for documentation and any standalone examples. Such checks must be named for what they test: passing showcase checks would not mean that the private ProCardio application passed CI.
+The public showcase has its own [automated documentation checks](showcase-automation.md). Their scope is the case-study files and diagrams; application CI and deployment remain the separate extension described above.
 
 ## Engineering tradeoffs to discuss
 

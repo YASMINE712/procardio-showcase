@@ -15,3 +15,10 @@
 !/assets/tenant-isolation.svg
 !/assets/data-pipeline.svg
 !/assets/rag-pipeline.svg
+!/assets/training-lifecycle.svg
+!/assets/request-flow.svg
+!/.github/
+/.github/*
+!/.github/workflows/
+/.github/workflows/*
+!/.github/workflows/showcase-checks.yml

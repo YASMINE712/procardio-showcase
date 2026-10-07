@@ -1,0 +1,102 @@
+name: Showcase checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: showcase-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  documentation:
+    name: Documentation and diagrams
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the proposed revision
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Validate public case-study files
+        shell: python
+        run: |
+          import os
+          import re
+          import subprocess
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+          from urllib.parse import unquote, urlsplit
+
+          root = Path.cwd().resolve()
+          tracked = subprocess.check_output(["git", "ls-files", "-z"]).decode().split("\0")
+          files = [Path(name) for name in tracked if name]
+          failures = []
+          counts = {"markdown": 0, "diagrams": 0, "local_links": 0}
+          fixed = {".gitignore", "README.md", ".github/workflows/showcase-checks.yml"}
+          for path in files:
+              name = path.as_posix()
+              allowed = name in fixed or (
+                  len(path.parts) == 2 and (
+                      (path.parts[0] in {"docs", "pseudocode"} and path.suffix == ".md")
+                      or (path.parts[0] == "assets" and path.suffix == ".svg")
+                  )
+              )
+              if not allowed or path.is_symlink():
+                  failures.append(f"Unreviewed file type or location: {name}")
+                  continue
+              try:
+                  content = path.read_text(encoding="utf-8")
+              except UnicodeError:
+                  failures.append(f"Invalid UTF-8: {name}")
+                  continue
+              if "\ufffd" in content:
+                  failures.append(f"Replacement character in {name}")
+              if path.suffix == ".md":
+                  counts["markdown"] += 1
+                  for destination in re.findall(r"\]\(([^\s)]+)\)", content):
+                      link = urlsplit(destination)
+                      if link.scheme or link.netloc or not link.path:
+                          continue
+                      counts["local_links"] += 1
+                      target = (path.parent / unquote(link.path)).resolve()
+                      if not target.is_relative_to(root) or not target.is_file():
+                          failures.append(f"Missing or out-of-repository link in {name}: {destination}")
+              if path.suffix == ".svg":
+                  counts["diagrams"] += 1
+                  try:
+                      document = ET.fromstring(content)
+                      if document.tag != "{http://www.w3.org/2000/svg}svg":
+                          raise ValueError("Root is not an SVG element")
+                      title = document.find("{http://www.w3.org/2000/svg}title")
+                      if title is None or not (title.text or "").strip():
+                          raise ValueError("Missing accessibility title")
+                      if len(document.attrib.get("viewBox", "").split()) != 4:
+                          raise ValueError("Missing or invalid viewBox")
+                      for element in document.iter():
+                          tag = element.tag.rsplit("}", 1)[-1].lower()
+                          if tag in {"script", "foreignobject"}:
+                              raise ValueError("Active or embedded HTML content")
+                          for key, value in element.attrib.items():
+                              attribute = key.rsplit("}", 1)[-1].lower()
+                              if attribute.startswith("on"):
+                                  raise ValueError("Event handler in SVG")
+                              if attribute == "href" and not value.startswith("#"):
+                                  raise ValueError("Linked external SVG resource")
+                  except (ET.ParseError, ValueError) as error:
+                      failures.append(f"Invalid diagram {name}: {error}")
+          summary = (
+              f"Checked {len(files)} tracked files: {counts['markdown']} Markdown documents, "
+              f"{counts['diagrams']} SVG diagrams, {counts['local_links']} local links.\n"
+              "Scope: public showcase documentation only. No private application tests or deployment.\n"
+          )
+          print(summary)
+          if os.environ.get("GITHUB_STEP_SUMMARY"):
+              Path(os.environ["GITHUB_STEP_SUMMARY"]).write_text(summary, encoding="utf-8")
+          for failure in failures:
+              print(failure)
+          raise SystemExit(bool(failures))
